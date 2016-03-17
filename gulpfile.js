@@ -15,14 +15,14 @@ gulp.task('clean', function () {
 });
 
 gulp.task('browserify', function() {
-    return browserify({entries: ['./websrc/js/yuMailApp.js', 
-                                 './websrc/js/httpProvider.js', 
-                                 './websrc/js/primary.js', 
-                                 './websrc/js/routeSegmentProvider.js', 
-                                 './websrc/js/services.js', 
-                                 './websrc/js/stateProvider.js', 
-                                 './websrc/js/home/controllers.js',
-                                 './websrc/js/settings/controllers.js' ]})
+    return browserify({entries: ['./src/js/yuMailApp.js', 
+                                 './src/js/httpProvider.js', 
+                                 './src/js/primary.js', 
+                                 './src/js/routeSegmentProvider.js', 
+                                 './src/js/services.js', 
+                                 './src/js/stateProvider.js', 
+                                 './src/js/home/controllers.js',
+                                 './src/js/settings/controllers.js' ]})
         .bundle()
         .pipe(source('all.js'))
         .pipe(gulp.dest('./dist/js/'));
@@ -34,16 +34,21 @@ gulp.task('copyangularcss', function(){
 });
 
 gulp.task('processcss', function(){
-	return gulp.src('./websrc/css/yuMail.css')
+	return gulp.src('./src/css/yuMail.css')
 			   .pipe(cssimport(cssImportOptions))
 			   .pipe(gulp.dest('./dist/css/'));
 });
 
 gulp.task('copyfonts', function(){
-	return gulp.src('./websrc/css/MaterialIcons-Regular.*')
+	return gulp.src('./src/css/MaterialIcons-Regular.*')
 			   .pipe(gulp.dest('./dist/css/'));
 });
 
+gulp.task('copytmpls', function(){
+    return gulp.src('./src/templates/**')
+               .pipe(gulp.dest('./dist/js/'));
+});
+
 gulp.task('default', ['clean'], function() {
-	gulp.start(['copyangularcss', 'processcss', 'copyfonts', 'browserify']);
+	gulp.start(['copyangularcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify']);
 });

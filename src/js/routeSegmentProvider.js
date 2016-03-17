@@ -10,20 +10,20 @@
     	when('/home/contacts', 'home.contacts').
     	when('/home/configs', 'home.configs').
     	segment('home', {
-	        templateUrl : 'home/tmpl.html',
+	        templateUrl : 'dist/js/home/tmpl.html',
 	    });
 
 	    $routeSegmentProvider.
 		    within('home').
 			    segment('default', {
 			    	'default': true,
-			        templateUrl : 'home/default.html'
+			        templateUrl : 'dist/js/home/default.html'
 			    }).
                 segment('contacts', {
-                    templateUrl : 'contacts/tmpl.html'
+                    templateUrl : 'dist/js/contacts/tmpl.html'
                 }).
 	            segment('configs', {
-	                templateUrl : 'settings/tmpl.html'
+	                templateUrl : 'dist/js/settings/tmpl.html'
 	            });
 	    
 	    $routeProvider.otherwise({redirectTo: '/home'}); 
