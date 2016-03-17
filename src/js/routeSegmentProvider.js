@@ -8,6 +8,7 @@
 	    $routeSegmentProvider.
     	when('/home', 'home').
     	when('/home/contacts', 'home.contacts').
+    	when('/home/groups', 'home.groups').
     	when('/home/configs', 'home.configs').
     	segment('home', {
 	        templateUrl : 'dist/js/home/tmpl.html',
@@ -21,6 +22,9 @@
 			    }).
                 segment('contacts', {
                     templateUrl : 'dist/js/contacts/tmpl.html'
+                }).
+                segment('groups', {
+                    templateUrl : 'dist/js/groups/tmpl.html'
                 }).
 	            segment('configs', {
 	                templateUrl : 'dist/js/settings/tmpl.html'

@@ -1,9 +1,7 @@
-var gulp = require('gulp')
-var cssimport = require("gulp-cssimport")
-
-var browserify = require('browserify')
-var source = require('vinyl-source-stream')
-
+var gulp = require('gulp');
+var cssimport = require("gulp-cssimport");
+var browserify = require('browserify');
+var source = require('vinyl-source-stream');
 var clean = require('gulp-clean');
 
 var cssImportOptions = {};
@@ -14,6 +12,11 @@ gulp.task('clean', function () {
 		.pipe(gulp.dest('dist'));
 });
 
+var finalCssName = './src/css/yuMail.css';
+var finalJsName = 'all.js';
+var jsDistDir = './dist/js/';
+var cssDistDir = './dist/css/';
+
 gulp.task('browserify', function() {
     return browserify({entries: ['./src/js/yuMailApp.js', 
                                  './src/js/httpProvider.js', 
@@ -22,31 +25,33 @@ gulp.task('browserify', function() {
                                  './src/js/services.js', 
                                  './src/js/stateProvider.js', 
                                  './src/js/home/controllers.js',
+                                 './src/js/contacts/controllers.js',
+                                 './src/js/groups/controllers.js',
                                  './src/js/settings/controllers.js' ]})
         .bundle()
-        .pipe(source('all.js'))
-        .pipe(gulp.dest('./dist/js/'));
+        .pipe(source(finalJsName))
+        .pipe(gulp.dest(jsDistDir));
 });
 
 gulp.task('copyangularcss', function(){
 	return gulp.src('./node_modules/angular-material/angular-material.min.css')
-			   .pipe(gulp.dest('./dist/css/'));
+			   .pipe(gulp.dest(cssDistDir));
 });
 
 gulp.task('processcss', function(){
-	return gulp.src('./src/css/yuMail.css')
+	return gulp.src(finalCssName)
 			   .pipe(cssimport(cssImportOptions))
-			   .pipe(gulp.dest('./dist/css/'));
+			   .pipe(gulp.dest(cssDistDir));
 });
 
 gulp.task('copyfonts', function(){
 	return gulp.src('./src/css/MaterialIcons-Regular.*')
-			   .pipe(gulp.dest('./dist/css/'));
+			   .pipe(gulp.dest(cssDistDir));
 });
 
 gulp.task('copytmpls', function(){
     return gulp.src('./src/templates/**')
-               .pipe(gulp.dest('./dist/js/'));
+               .pipe(gulp.dest(jsDistDir));
 });
 
 gulp.task('default', ['clean'], function() {

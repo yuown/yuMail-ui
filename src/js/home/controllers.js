@@ -10,10 +10,22 @@
 	    };
 	
 	    $scope.urls = [ {
+			url : "#/home",
+			title : "Home",
+			icon : "home"
+		}, {
+			url : "#/home/groups",
+			title : "Groups",
+			icon : "group"
+		}, {
+			url : "#/home/contacts",
+			title : "Contacts",
+			icon : "contacts"
+		}, {
 			url : "#/home/configs",
 			title : "Configuration Items",
-			icon : ""
-		} ];
+			icon : "settings"
+		}];
 	    
 	    $controller('BaseController', {
 			$scope : $scope
@@ -53,6 +65,8 @@
 	
     angular.module('yuMailApp').controller('DefaultController', [ '$scope', '$timeout', '$mdSidenav', 'AjaxService', '$rootScope', '$mdDialog', function($scope, $timeout, $mdSidenav, AjaxService, $rootScope, $mdDialog) {
 		'use strict';
+		
+		$rootScope.pageTitle = "Home";
 	
 		var millisPerDay = 1000 * 60 * 60 * 24;
 	

@@ -12,7 +12,10 @@
 		<md-content ng-cloak>
 			<md-list>
 	            <md-list-item ng-repeat="link in urls" ng-href="{{link.url}}" ng-click="toggleLeft()">
-					<md-button><md-icon md-svg-icon="{{link.icon}}"></md-icon>  <label>{{link.title}}</label></md-button>
+					<md-button>
+					    <i class="material-icons">{{link.icon}}</i>
+                        <label>{{link.title}}</label>
+                    </md-button>
 				</md-list-item>
 	        </md-list>
 		</md-content>

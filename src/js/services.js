@@ -76,11 +76,18 @@
     	var serverUrl = "http://localhost:7777/yuMail/rest/";
     	
         return {
-            call : function(url, method, params) {
+            call : function(url, method, params, customHeaders) {
             	$rootScope.errorMessage = '';
                 switch (method) {
                 case 'POST':
-                    return $http.post(serverUrl + url, params);
+                	return $http({
+    					url : serverUrl + url,
+    					method : 'POST',
+    					data : params,
+    					headers : {
+    						"customparams" : customHeaders
+    					}
+    				});
                 case 'GET':
                     return $http.get(serverUrl + url, params);
                 case 'DELETE':

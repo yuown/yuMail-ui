@@ -21,6 +21,7 @@
     "browserify": "^13.0.0",
     "electron-prebuilt": "^0.36.0",
     "gulp": "^3.9.1",
+    "gulp-changed": "^1.3.0",
     "gulp-clean": "^0.3.2",
     "gulp-cssimport": "^3.0.2",
     "node-sass": "^3.4.2",
@@ -32,6 +33,8 @@
     "angular-material": "^1.0.6",
     "angular-route": "^1.5.0",
     "angular-route-segment": "^1.5.1",
+    "angular-ui-sortable": "^0.13.4",
+    "jquery": "^2.2.1",
     "material-design-icons": "^2.2.1"
   }
 }
