@@ -73,7 +73,7 @@
     
     angular.module('yuMailApp').factory('AjaxService', [ '$rootScope', '$http', function($rootScope, $http) {
     	
-    	var serverUrl = "http://locahost:7777/rest/";
+    	var serverUrl = "http://localhost:7777/yuMail/rest/";
     	
         return {
             call : function(url, method, params) {

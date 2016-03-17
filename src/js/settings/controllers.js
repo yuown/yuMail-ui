@@ -29,7 +29,7 @@
 		    $rootScope.temp = {
 	            item : data
 	        };
-		    $scope.openAsDialog('settings/add.html', ev, function() {
+		    $scope.openAsDialog('dist/js/settings/add.html', ev, function() {
 		        $scope.load();
 		    });
 		};
