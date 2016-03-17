@@ -1,1 +1,1 @@
-# yuMail-ui
+# yuMail
