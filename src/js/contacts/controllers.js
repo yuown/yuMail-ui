@@ -76,7 +76,11 @@
 	    
 	    $scope.init = function() {
 	        $scope.item = $rootScope.temp.item;
-	        $scope.groupMap = $scope.item.groups;
+	        if($scope.item.id) {
+		        AjaxService.call($scope.restUrl + $scope.item.id + '/groups', 'GET').success(function(data, status, headers, config) {
+		        	$scope.groupMap = data;
+		        });
+	        }
 	        AjaxService.call('groups', 'GET').success(function(data, status, headers, config) {
 	            $scope.groups = data;
 	        });
@@ -86,7 +90,9 @@
 	        $scope.item.groups = null;
 	        AjaxService.call($scope.restUrl, 'POST', $scope.item, JSON.stringify($scope.groupMap)).success(function(data, status, headers, config) {
 	        	$scope.item = data;
-	        	$scope.groupMap = $scope.item.groups;
+	        	AjaxService.call($scope.restUrl + $scope.item.id + '/groups', 'GET').success(function(data, status, headers, config) {
+		        	$scope.groupMap = data;
+		        });
 	        });
 	    };
 	    
@@ -99,7 +105,7 @@
 	    };
 	    
 	    $scope.isAssigned = function(contact, grp) {
-	    	for(var allotedGroup in contact.groups) {
+	    	for(var allotedGroup in $scope.groupMap) {
 	    		if(grp.id == $scope.groupMap[allotedGroup].id) {
 	    			return true;
 	    		}
@@ -122,7 +128,7 @@
 	    
 	    $scope.getAssignedGroup = function(allottedGroup) {
 	    	for(var i in $scope.groups) {
-	    		if($scope.$scope.groupMap[i].id == allottedGroup) {
+	    		if($scope.groupMap[i].id == allottedGroup) {
 	    			return i;
 	    		}
 	    	}
@@ -131,12 +137,14 @@
 	    $scope.removeGroupFromContact = function(contact, grpId) {
 	    	var assigned = $scope.getAssignedGroup(grpId);
 			if(assigned && assigned >= 0) {
-				AjaxService.call('contacts/' + $scope.contact.id + '/group/' + grpId, 'DELETE').success(function(data, status, headers, config) {
-					$scope.$scope.groupMap.splice(assigned, 1);
-					AjaxService.call('groups/available', 'GET').success(function(data, status, headers, config) {
-			            $scope.groups = data;
-			        });
-	            });
+				if($scope.item.id) {
+					$scope.groupMap.splice(assigned, 1);
+					AjaxService.call('contacts/' + $scope.item.id + '/groups/' + grpId, 'DELETE').success(function(data, status, headers, config) {
+						AjaxService.call($scope.restUrl + $scope.item.id + '/groups', 'GET').success(function(data, status, headers, config) {
+				        	$scope.groupMap = data;
+				        });
+				    });
+				}
 			}
 		};
 	    

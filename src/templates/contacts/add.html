@@ -36,7 +36,9 @@
                     </div>
                     <md-list-item ng-repeat="allotGrp in groupMap">
                         <p>{{getGroup(allotGrp.id).name}}</p>
-                        <md-icon md-svg-icon="icons/remove.svg" ng-click="removeGroupFromContact(groupMap, allotGrp.id)" aria-label="Remove Group from Contact" class="md-secondary md-hue-3"></md-icon>
+                        <md-button class="md-secondary md-hue-3" ng-click="removeGroupFromContact(groupMap, allotGrp.id)" aria-label="Remove Group from Contact">
+				            <i class="material-icons">close</i>
+				        </md-button>
                     </md-list-item>
                 </div>
             </md-tab>

@@ -3,6 +3,7 @@ var cssimport = require("gulp-cssimport");
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var clean = require('gulp-clean');
+var runSequence = require('run-sequence');
 
 var cssImportOptions = {};
 
@@ -27,10 +28,18 @@ gulp.task('browserify', function() {
                                  './src/js/home/controllers.js',
                                  './src/js/contacts/controllers.js',
                                  './src/js/groups/controllers.js',
-                                 './src/js/settings/controllers.js' ]})
+                                 './src/js/settings/controllers.js',
+                                 './node_modules/textangular/dist/textAngular-rangy.min.js',
+                                 './node_modules/textangular/dist/textAngular-sanitize.min.js',
+                                 './node_modules/textangular/dist/textAngular.min.js' ]})
         .bundle()
         .pipe(source(finalJsName))
         .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copytextangularcss', function(){
+	return gulp.src('./node_modules/textangular/dist/textAngular.css')
+			   .pipe(gulp.dest(cssDistDir));
 });
 
 gulp.task('copyangularcss', function(){
@@ -54,6 +63,6 @@ gulp.task('copytmpls', function(){
                .pipe(gulp.dest(jsDistDir));
 });
 
-gulp.task('default', ['clean'], function() {
-	gulp.start(['copyangularcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify']);
+gulp.task('default', [], function() {
+	runSequence('clean', ['copytextangularcss', 'copyangularcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify']);
 });
