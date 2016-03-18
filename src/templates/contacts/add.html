@@ -30,13 +30,13 @@
                 <div class="md-dialog-content" flex>
                     <div layout="row" layout-align="space-between center" flex>
                         <md-select ng-model="selectedGroup">
-                            <md-option ng-repeat="group in groups" value="{{group.id}}" ng-hide="isAssigned(item, group)">{{group.name}}</md-option>
+                            <md-option ng-repeat="group in groups" value="{{group.id}}" ng-hide="isAssigned(groupMap, group)">{{group.name}}</md-option>
                         </md-select>
                         <md-button ng-click="addGroupToContact(item, selectedGroup)" class="md-primary md-raised md-hue-2" ng-disabled="groups.length == 0 || selectedGroup == ''">Add Group</md-button>
                     </div>
-                    <md-list-item ng-repeat="allotGrp in contact.groups">
+                    <md-list-item ng-repeat="allotGrp in groupMap">
                         <p>{{getGroup(allotGrp.id).name}}</p>
-                        <md-icon md-svg-icon="icons/remove.svg" ng-click="removeGroupFromContact(item, allotGrp.id)" aria-label="Remove Group from Contact" class="md-secondary md-hue-3"></md-icon>
+                        <md-icon md-svg-icon="icons/remove.svg" ng-click="removeGroupFromContact(groupMap, allotGrp.id)" aria-label="Remove Group from Contact" class="md-secondary md-hue-3"></md-icon>
                     </md-list-item>
                 </div>
             </md-tab>

@@ -76,14 +76,17 @@
 	    
 	    $scope.init = function() {
 	        $scope.item = $rootScope.temp.item;
+	        $scope.groupMap = $scope.item.groups;
 	        AjaxService.call('groups', 'GET').success(function(data, status, headers, config) {
 	            $scope.groups = data;
 	        });
 	    };
 	    
 	    $scope.save = function() {
-	        AjaxService.call($scope.restUrl, 'POST', $scope.item, JSON.stringify($scope.item.groups)).success(function(data, status, headers, config) {
+	        $scope.item.groups = null;
+	        AjaxService.call($scope.restUrl, 'POST', $scope.item, JSON.stringify($scope.groupMap)).success(function(data, status, headers, config) {
 	        	$scope.item = data;
+	        	$scope.groupMap = $scope.item.groups;
 	        });
 	    };
 	    
@@ -97,7 +100,7 @@
 	    
 	    $scope.isAssigned = function(contact, grp) {
 	    	for(var allotedGroup in contact.groups) {
-	    		if(grp.id == contact.groups[allotedGroup].id) {
+	    		if(grp.id == $scope.groupMap[allotedGroup].id) {
 	    			return true;
 	    		}
 	    	}
@@ -106,20 +109,20 @@
 	    
 	    $scope.addGroupToContact = function(contact, grpId) {
 	    	if(!$scope.isAssigned(contact, $scope.getGroup(grpId))) {
-	    		if(!contact.groups) {
-	    			contact.groups = [];
+	    		if(!$scope.groupMap) {
+	    		    $scope.groupMap = [];
 	    		}
 	    		try {
 	    			grpId = parseInt(grpId);
 				} catch (e) { }
-	    		contact.groups.push({id: grpId, value: 1});
+				$scope.groupMap.push({id: grpId, value: 1});
 	    		grpId = null;
 	    	}
 	    };
 	    
 	    $scope.getAssignedGroup = function(allottedGroup) {
 	    	for(var i in $scope.groups) {
-	    		if($scope.contact.groups[i].id == allottedGroup) {
+	    		if($scope.$scope.groupMap[i].id == allottedGroup) {
 	    			return i;
 	    		}
 	    	}
@@ -129,7 +132,7 @@
 	    	var assigned = $scope.getAssignedGroup(grpId);
 			if(assigned && assigned >= 0) {
 				AjaxService.call('contacts/' + $scope.contact.id + '/group/' + grpId, 'DELETE').success(function(data, status, headers, config) {
-					$scope.contact.groups.splice(assigned, 1);
+					$scope.$scope.groupMap.splice(assigned, 1);
 					AjaxService.call('groups/available', 'GET').success(function(data, status, headers, config) {
 			            $scope.groups = data;
 			        });
