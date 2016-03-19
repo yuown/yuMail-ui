@@ -19,32 +19,51 @@ var jsDistDir = './dist/js/';
 var cssDistDir = './dist/css/';
 
 gulp.task('browserify', function() {
-    return browserify({entries: ['./src/js/yuMailApp.js', 
-                                 './src/js/httpProvider.js', 
-                                 './src/js/primary.js', 
-                                 './src/js/routeSegmentProvider.js', 
-                                 './src/js/services.js', 
-                                 './src/js/stateProvider.js', 
-                                 './src/js/home/controllers.js',
-                                 './src/js/contacts/controllers.js',
-                                 './src/js/groups/controllers.js',
-                                 './src/js/settings/controllers.js',
-                                 './node_modules/textangular/dist/textAngular-rangy.min.js',
-                                 './node_modules/textangular/dist/textAngular-sanitize.min.js',
-                                 './node_modules/textangular/dist/textAngular.min.js' ]})
+    var files1 = [
+//                  './bower_components/textAngular/dist/textAngular-rangy.min.js',
+//                  './bower_components/textAngular/dist/textAngular-sanitize.min.js',
+//                  './bower_components/textAngular/dist/textAngular.js',
+//                  './bower_components/textAngular/dist/textAngularSetup.js',
+                  './src/js/yuMailApp.js', 
+                  './src/js/httpProvider.js', 
+                  './src/js/primary.js', 
+                  './src/js/routeSegmentProvider.js', 
+                  './src/js/services.js', 
+                  './src/js/stateProvider.js', 
+                  './src/js/home/controllers.js',
+                  './src/js/contacts/controllers.js',
+                  './src/js/groups/controllers.js',
+                  './src/js/settings/controllers.js',
+                  './src/js/templates/controllers.js'
+                   ];
+    return browserify({entries: files1})
         .bundle()
         .pipe(source(finalJsName))
         .pipe(gulp.dest(jsDistDir));
 });
 
-gulp.task('copytextangularcss', function(){
-	return gulp.src('./node_modules/textangular/dist/textAngular.css')
-			   .pipe(gulp.dest(cssDistDir));
+gulp.task('bower', function() {
+    return bower().pipe(gulp.dest(jsDistDir));
 });
 
 gulp.task('copyangularcss', function(){
 	return gulp.src('./node_modules/angular-material/angular-material.min.css')
 			   .pipe(gulp.dest(cssDistDir));
+});
+
+gulp.task('copyquillcss', function(){
+    return gulp.src('./src/css/quill.snow.css')
+               .pipe(gulp.dest(cssDistDir));
+});
+
+gulp.task('copyquilljs', function(){
+    return gulp.src('./src/js/quill.min.js')
+               .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copyngquilljs', function(){
+    return gulp.src('./src/js/ng-quill.min.js')
+               .pipe(gulp.dest(jsDistDir));
 });
 
 gulp.task('processcss', function(){
@@ -64,5 +83,5 @@ gulp.task('copytmpls', function(){
 });
 
 gulp.task('default', [], function() {
-	runSequence('clean', ['copytextangularcss', 'copyangularcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify']);
+	runSequence('clean', ['copyangularcss', 'copyquillcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify', 'copyquilljs', 'copyngquilljs']);
 });

@@ -1,6 +1,52 @@
 (function () {
     'use strict';
     
+    angular.module('yuMailApp').config(['ngQuillConfigProvider', function (ngQuillConfigProvider) {
+        ngQuillConfigProvider.set([{
+            alias: '10',
+            size: '10px'
+        }, {
+            alias: '12',
+            size: '12px'
+        }, {
+            alias: '14',
+            size: '14px'
+        }, {
+            alias: '16',
+            size: '16px'
+        }, {
+            alias: '18',
+            size: '18px'
+        }, {
+            alias: '20',
+            size: '20px'
+        }, {
+            alias: '22',
+            size: '22px'
+        }, {
+            alias: '24',
+            size: '24px'
+        }], [{
+            label: 'Arial',
+            alias: 'Arial'
+        }, {
+            label: 'Sans Serif',
+            alias: 'sans-serif'
+        }, {
+            label: 'Serif',
+            alias: 'serif'
+        }, {
+            label: 'Monospace',
+            alias: 'monospace'
+        }, {
+            label: 'Trebuchet MS',
+            alias: '"Trebuchet MS"'
+        }, {
+            label: 'Verdana',
+            alias: 'Verdana'
+        }])
+    }]);
+    
     angular.module('yuMailApp').controller('TemplatesController', [ '$scope', '$rootScope', 'AjaxService', '$location', '$controller', function($scope, $rootScope, AjaxService, $location, $controller) {
 	    'use strict';
 	    
@@ -49,7 +95,7 @@
 	    
 	} ]);
 	
-    angular.module('yuMailApp').controller('TemplateController', [ '$scope', '$rootScope', 'AjaxService', '$controller', function($scope, $rootScope, AjaxService, $controller) {
+    angular.module('yuMailApp').controller('TemplateController', [ '$scope', '$rootScope', 'AjaxService', '$controller', 'ngQuillConfig', function($scope, $rootScope, AjaxService, $controller, ngQuillConfig) {
 	    'use strict';
 	    
 	    $controller('BaseController', {
@@ -59,6 +105,7 @@
 	    $scope.restUrl = "templates/";
 	    
 	    $scope.init = function() {
+	        $scope.showToolbar = true;
 	        $scope.item = $rootScope.temp.item;
 	    };
 	    
@@ -67,6 +114,18 @@
 	        	$scope.item = data;
 	        });
 	    };
+	    
+        $scope.translations = angular.extend({}, ngQuillConfig.translations, {
+            10: 'smallest'
+        });
+        // Own callback after Editor-Creation
+//        $scope.editorCallback = function (editor, name) {
+//            console.log('createCallback', editor, name);
+//        };
+        // Event after an editor is created --> gets the editor instance on optional the editor name if set
+//        $scope.$on('editorCreated', function (event, editor, name) {
+//            console.log('createEvent', editor, name);
+//        });
 	    
 	} ]);
 })();

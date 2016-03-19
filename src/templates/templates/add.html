@@ -1,5 +1,5 @@
 <md-dialog aria-label="Email Template" ng-controller="TemplateController" ng-cloak style="width: 100%" ng-init="init()" class="fullscreen-dialog">
-	<form ng-submit="save()">
+	<form ng-submit="save()" method="post">
     <md-toolbar>
       <div class="md-toolbar-tools">
         <h2>Email Template</h2>
@@ -18,10 +18,18 @@
 	        <md-switch class="md-primary" md-no-ink aria-label="Enabled" ng-model="item.enabled">
                 Enabled
             </md-switch>
-	        <md-content class="md-block" flex-gt-xs>
-	            <label>Template Content</label>
-	            
-	        </md-content>
+	        <div style="width: 100%; height: 100%;">
+				<ng-quill-editor name="editor1"
+					callback="editorCallback(editor, name)" ng-model="message"
+					translations="translations" toolbar="true"
+					show-toolbar="showToolbar" link-tooltip="true" image-tooltip="true"
+					toolbar-entries="font size bold list bullet italic underline strike align color background link image attachment"
+					editor-required="true" required="" error-class="input-error"
+					fontsize-options="fontsizeOptions"
+					fontfamily-options="fontfamilyOptions"></ng-quill-editor>
+			</div>
+	        <md-content class="md-block" flex-gt-xs ng-bind-html="item.tinymceHtml">
+            </md-content>
         </div>
     </md-dialog-content>
     <md-dialog-actions layout="row">

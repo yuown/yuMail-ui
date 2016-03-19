@@ -22,6 +22,10 @@
 			title : "Contacts",
 			icon : "contacts"
 		}, {
+            url : "#/home/templates",
+            title : "Templates",
+            icon : "insert_drive_file"
+        }, {
 			url : "#/home/configs",
 			title : "Configuration Items",
 			icon : "settings"

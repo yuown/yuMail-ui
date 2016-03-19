@@ -1,0 +1,22 @@
+{
+  "name": "yuMail",
+  "description": "Bulk Mailer",
+  "main": "main.js",
+  "authors": [
+    "K3n"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/yuown/yuMail-ui",
+  "moduleType": [],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "textAngular": "^1.5.0"
+  }
+}
