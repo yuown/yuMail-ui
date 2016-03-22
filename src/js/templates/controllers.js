@@ -106,6 +106,9 @@
 	    
 	    $scope.init = function() {
 	        $scope.item = $rootScope.temp.item;
+	        if($scope.item.content == null || $scope.item.content == undefined) {
+	        	$scope.item.content = " ";
+	        }
 	        $scope.showToolbar = true;
 	        $scope.toolbarCreated = true;
 	        
@@ -114,11 +117,11 @@
 	        });
 	        // Own callback after Editor-Creation
 	        $scope.editorCallback = function (editor, name) {
-	            console.log('createCallback ' + $scope.toolbarCreated);
+//	            console.log('editorCallback ' + $scope.toolbarCreated + " " + $scope.showToolbar);
 	        };
 	        //         Event after an editor is created --> gets the editor instance on optional the editor name if set
 	        $scope.$on('editorCreated', function (event, editor, name) {
-	            console.log('createEvent ' + $scope.toolbarCreated);
+//	        	console.log('editorCreated ' + $scope.toolbarCreated + " " + $scope.showToolbar);
 	        });
 	    };
 	    
