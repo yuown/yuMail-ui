@@ -56,13 +56,38 @@ gulp.task('copyquillcss', function(){
                .pipe(gulp.dest(cssDistDir));
 });
 
+gulp.task('copyquillcss1', function(){
+    return gulp.src('./src/css/quill.base.css')
+               .pipe(gulp.dest(cssDistDir));
+});
+
 gulp.task('copyquilljs', function(){
-    return gulp.src('./src/js/quill.min.js')
+    return gulp.src('./src/js/quill.js')
                .pipe(gulp.dest(jsDistDir));
 });
 
 gulp.task('copyngquilljs', function(){
     return gulp.src('./src/js/ng-quill.min.js')
+               .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copyjquery', function(){
+    return gulp.src('./node_modules/jquery/dist/jquery.js')
+               .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copyjqueryui', function(){
+    return gulp.src('./src/js/jquery-ui.min.js')
+               .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copyangular', function(){
+    return gulp.src('./node_modules/angular/angular.js')
+               .pipe(gulp.dest(jsDistDir));
+});
+
+gulp.task('copysortable', function(){
+    return gulp.src('./node_modules/angular-ui-sortable/dist/sortable.js')
                .pipe(gulp.dest(jsDistDir));
 });
 
@@ -83,5 +108,5 @@ gulp.task('copytmpls', function(){
 });
 
 gulp.task('default', [], function() {
-	runSequence('clean', ['copyangularcss', 'copyquillcss', 'processcss', 'copyfonts', 'copytmpls', 'browserify', 'copyquilljs', 'copyngquilljs']);
+	runSequence('clean', ['copyangularcss', 'copyquillcss', 'copyquillcss1', 'processcss', 'copyfonts', 'copytmpls', 'browserify', 'copyquilljs', 'copyngquilljs']);
 });

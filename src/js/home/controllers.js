@@ -75,12 +75,24 @@
 		var millisPerDay = 1000 * 60 * 60 * 24;
 	
 	    $scope.init = function() {
-	    	
+	        $scope.groupsUrl = "groups/";
+	        $scope.contactsUrl = "contacts/";
+	        AjaxService.call($scope.groupsUrl, 'GET').success(function(data, status, headers, config) {
+                $scope.groups = data;
+                if($scope.groups.length > 0) {
+                    $scope.fetchContactsByGroup($scope.groups[0]);
+                }
+            });
 	    };
 	    
 	    $scope.load = function() {
 	    	
 	    };
 		
+	    $scope.fetchContactsByGroup = function(group) {
+	        AjaxService.call($scope.contactsUrl + 'byGroup/' + group.id, 'GET').success(function(data, status, headers, config) {
+                $scope.contacts = data;
+            });
+	    };
 	} ]);
 })();

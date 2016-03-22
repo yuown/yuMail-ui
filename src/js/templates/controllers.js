@@ -105,8 +105,21 @@
 	    $scope.restUrl = "templates/";
 	    
 	    $scope.init = function() {
-	        $scope.showToolbar = true;
 	        $scope.item = $rootScope.temp.item;
+	        $scope.showToolbar = true;
+	        $scope.toolbarCreated = true;
+	        
+	        $scope.translations = angular.extend({}, ngQuillConfig.translations, {
+	            10: 'smallest'
+	        });
+	        // Own callback after Editor-Creation
+	        $scope.editorCallback = function (editor, name) {
+	            console.log('createCallback ' + $scope.toolbarCreated);
+	        };
+	        //         Event after an editor is created --> gets the editor instance on optional the editor name if set
+	        $scope.$on('editorCreated', function (event, editor, name) {
+	            console.log('createEvent ' + $scope.toolbarCreated);
+	        });
 	    };
 	    
 	    $scope.save = function() {
@@ -114,18 +127,6 @@
 	        	$scope.item = data;
 	        });
 	    };
-	    
-        $scope.translations = angular.extend({}, ngQuillConfig.translations, {
-            10: 'smallest'
-        });
-        // Own callback after Editor-Creation
-//        $scope.editorCallback = function (editor, name) {
-//            console.log('createCallback', editor, name);
-//        };
-        // Event after an editor is created --> gets the editor instance on optional the editor name if set
-//        $scope.$on('editorCreated', function (event, editor, name) {
-//            console.log('createEvent', editor, name);
-//        });
 	    
 	} ]);
 })();

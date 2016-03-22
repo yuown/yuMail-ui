@@ -1,2 +1,54 @@
 <md-content style="height: 100%" ng-controller="DefaultController" ng-init="init()" flex>
+    <md-tabs md-dynamic-height md-border-bottom>
+        <md-tab label="Contacts">
+            <md-select ng-model='selectedGroup' aria-label="Groups for Selection" ng-change="fetchContactsByGroup(selectedGroup)">
+		        <md-option ng-repeat="(index,group) in groups" ng-value="group" ng-selected="group.id == selectedGroup.id ? true : index == 0">{{group.name}}</md-option>
+		    </md-select>
+            <div style="float: left;">
+                Available Contacts for Selection
+                <md-list>
+                     <md-list-item ng-repeat="contact in contacts" ng-hide="contact.selected" flex>
+                        <md-checkbox ng-model='contact.id'></md-checkbox>
+                        <p>{{contact.name}}</p>
+                     </md-list-item>
+                 </md-list>
+			</div>
+			<div style="float: left;">
+			     <md-list>
+			         <md-list-item flex>
+			             <md-button ng-click="addSelected()">
+			                 > <md-tooltip>Add Selected</md-tooltip>
+                         </md-button>
+			         </md-list-item>
+			         <md-list-item flex>
+                         <md-button ng-click="removeSelected()">
+                             < <md-tooltip>Remove Selected</md-tooltip>
+                         </md-button>
+                     </md-list-item>
+                     <md-list-item flex>
+                         <md-button ng-click="addAll()">
+                             >> <md-tooltip>Add All</md-tooltip>
+                         </md-button>
+                     </md-list-item>
+                     <md-list-item flex>
+                         <md-button ng-click="removeAll()">
+                             << <md-tooltip>Remove All</md-tooltip>
+                         </md-button>
+                     </md-list-item>
+			     </md-list>
+			</div>
+			<div style="float: right;">
+			    Selected Contacts
+                <md-list>
+                     <md-list-item ng-repeat="contact in selectedContacts" flex>
+                        <md-checkbox ng-model='contact.id'></md-checkbox>
+                        <p>{{contact.name}}</p>
+                     </md-list-item>
+                 </md-list>
+            </div>
+        </md-tab>
+        <md-tab label="Message">
+            
+        </md-tab>
+    </md-tabs>
 </md-content>
