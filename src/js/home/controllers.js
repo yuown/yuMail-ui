@@ -93,11 +93,15 @@
 		var millisPerDay = 1000 * 60 * 60 * 24;
 	
 	    $scope.init = function() {
-	    	$scope.selectedContacts = [];
 	        $scope.groupsUrl = "groups/";
 	        $scope.contactsUrl = "contacts/";
 	        $scope.templatesUrl = "templates/";
-	        $scope.attachments = [];
+	        $scope.sendMailUrl = "sendMail/";
+	        
+	        $scope.request = {
+	        		attachments: [],
+	        		selectedContacts: []
+	        };
 	        AjaxService.call($scope.groupsUrl, 'GET').success(function(data, status, headers, config) {
                 $scope.groups = data;
                 if($scope.groups.length > 0) {
@@ -107,7 +111,7 @@
 	        AjaxService.call($scope.templatesUrl, 'GET').success(function(data, status, headers, config) {
 	            $scope.templates = data;
 	            if($scope.templates.length > 0) {
-	            	$scope.selectedTemplate = $scope.templates[0];
+	            	$scope.request.selectedTemplate = $scope.templates[0];
 	            }
 	        });
 	        
@@ -117,7 +121,7 @@
 	    	    	var newFile = {"name": args.file.path};
 	    	    	var idx = $scope.findFilePos(newFile);
 	    	    	if(idx == -1) {
-	    	        	$scope.attachments.push(newFile);
+	    	        	$scope.request.attachments.push(newFile);
 	    	    	}
 	    	    });
 	    	});
@@ -140,18 +144,18 @@
 		    			contact.selected = true;
 		    			contact.selectedToAdd = false;
 		    			contact.selectedToRemove = false;
-		    			var idx = $scope.selectedContacts.indexOf(contact);
+		    			var idx = $scope.request.selectedContacts.indexOf(contact);
 		    			if(idx == -1) {
-		    				$scope.selectedContacts.push(contact);
+		    				$scope.request.selectedContacts.push(contact);
 		    			}
 	    			}
 	    		} else if(arg == 'all') {
 	    			contact.selected = true;
 	    			contact.selectedToAdd = false;
 	    			contact.selectedToRemove = false;
-	    			var idx = $scope.selectedContacts.indexOf(contact);
+	    			var idx = $scope.request.selectedContacts.indexOf(contact);
 	    			if(idx == -1) {
-	    				$scope.selectedContacts.push(contact);
+	    				$scope.request.selectedContacts.push(contact);
 	    			}
 	    		}
 	    	}
@@ -161,32 +165,32 @@
 	    	contact.selected = true;
 			contact.selectedToAdd = false;
 			contact.selectedToRemove = false;
-			var idx = $scope.selectedContacts.indexOf(contact);
+			var idx = $scope.request.selectedContacts.indexOf(contact);
 			if(idx == -1) {
-				$scope.selectedContacts.push(contact);
+				$scope.request.selectedContacts.push(contact);
 			}
 	    };
 	    
 	    $scope.removeContacts = function(arg) {
-	    	for(var i = $scope.selectedContacts.length - 1; i >=0 ; i--) {
-	    		var contact = $scope.selectedContacts[i];
+	    	for(var i = $scope.request.selectedContacts.length - 1; i >=0 ; i--) {
+	    		var contact = $scope.request.selectedContacts[i];
 	    		if(arg == 'sel') {
 	    			if(contact.selectedToRemove == true) {
 	    				contact.selected = false;
 		    			contact.selectedToAdd = false;
 		    			contact.selectedToRemove = false;
-		    			var idx = $scope.selectedContacts.indexOf(contact);
+		    			var idx = $scope.request.selectedContacts.indexOf(contact);
 		    			if(idx > -1) {
-		    				$scope.selectedContacts.splice(i, 1);
+		    				$scope.request.selectedContacts.splice(i, 1);
 		    			}
 	    			}
 	    		} else if(arg == 'all') {
 	    			contact.selected = false;
 	    			contact.selectedToAdd = false;
 	    			contact.selectedToRemove = false;
-	    			var idx = $scope.selectedContacts.indexOf(contact);
+	    			var idx = $scope.request.selectedContacts.indexOf(contact);
 	    			if(idx > -1) {
-	    				$scope.selectedContacts.splice(i, 1);
+	    				$scope.request.selectedContacts.splice(i, 1);
 	    			}
 	    		}
 	    	}
@@ -196,26 +200,38 @@
 	    	contact.selected = false;
 			contact.selectedToAdd = false;
 			contact.selectedToRemove = false;
-			var idx = $scope.selectedContacts.indexOf(contact);
+			var idx = $scope.request.selectedContacts.indexOf(contact);
 			if(idx > -1) {
-				$scope.selectedContacts.splice(idx, 1);
+				$scope.request.selectedContacts.splice(idx, 1);
 			}
 	    };
 	    
 	    $scope.removeAttachment = function(attachment) {
-	    	$scope.attachments.splice($scope.attachments.indexOf(attachment), 1);
+	    	$scope.request.attachments.splice($scope.request.attachments.indexOf(attachment), 1);
 	    };
 	    
 	    $scope.findFilePos = function(file) {
 	    	var idx = -1;
-	    	for(var i = 0; i < $scope.attachments.length; i++) {
-	    		if($scope.attachments[i].name == file.name) {
+	    	for(var i = 0; i < $scope.request.attachments.length; i++) {
+	    		if($scope.request.attachments[i].name == file.name) {
 	    			idx = i;
 	    			break;
 	    		}
 	    	}
 	    	return idx;
 	    }
+	    
+	    $scope.sendMail = function() {
+	    	var atts = [];
+	    	for(var i=0;i<$scope.request.attachments.length;i++) {
+	    		atts[i] = $scope.request.attachments[i].name;
+	    	}
+	    	var content = $scope.request.selectedTemplate.content;
+	    	var request = angular.copy($scope.request);
+	    	request.attachments = atts;
+	    	request.content = content;
+	    	AjaxService.call($scope.sendMailUrl, 'POST', request);
+	    };
 	    
 	} ]);
 })();

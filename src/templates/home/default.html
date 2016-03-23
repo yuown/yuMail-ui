@@ -49,7 +49,7 @@
 			<div style="float: left; width: 40%">
 			    Selected Contacts
                 <md-list>
-                     <md-list-item ng-repeat="contact in selectedContacts" flex>
+                     <md-list-item ng-repeat="contact in request.selectedContacts" flex>
                         <md-checkbox ng-model='contact.selectedToRemove'></md-checkbox>
                         <p>{{contact.name}}</p>
                         <i class="material-icons md-secondary" ng-click="removeContact(contact)">remove</i>
@@ -58,12 +58,16 @@
             </div>
         </md-tab>
         <md-tab label="Message">
-            <md-select ng-model='selectedTemplate' aria-label="Template to Compose">
-                <md-option ng-repeat="(index,template) in templates" ng-value="template" ng-selected="template.id == selectedTemplate.id ? true : index == 0">{{template.name}}</md-option>
+            <md-select ng-model='request.selectedTemplate' aria-label="Template to Compose">
+                <md-option ng-repeat="(index,template) in templates" ng-value="template" ng-selected="template.id == request.selectedTemplate.id ? true : index == 0">{{template.name}}</md-option>
             </md-select>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Subject</label>
+                <input ng-model="request.subject" type="text" />
+            </md-input-container>
             <div style="width: 100%; height: 100%;">
                 <ng-quill-editor name="editor2"
-                    callback="editorCallback(editor, name)" ng-model="selectedTemplate.content"
+                    callback="editorCallback(editor, name)" ng-model="request.selectedTemplate.content"
                     translations="translations" toolbar="true" toolbar-required="true"
                     show-toolbar="true" link-tooltip="true" image-tooltip="true"
                     toolbar-entries="font size bold list bullet italic underline strike align color background link image attachment"
@@ -81,7 +85,7 @@
             </md-button>
             <input id="filePicker" type="file" style="display:none;" file-upload multiple>
             <md-list>
-                <md-list-item ng-repeat="attachment in attachments" ng-click="nothing()" flex>
+                <md-list-item ng-repeat="attachment in request.attachments" ng-click="nothing()" flex>
                    <p>{{attachment.name}}</p>
                    <i class="material-icons md-secondary" ng-click="removeAttachment(attachment)">remove_circle</i>
                 </md-list-item>
