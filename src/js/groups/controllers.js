@@ -37,7 +37,7 @@
 		$scope.deleteItem = function(item, $event) {
 			$scope.confirmDialog({
 				title: 'Are you sure to delete this ?',
-				content: 'Group Name: ' + item.name,
+				content: 'Group Name: ' + item.name + "  (Hint: Contacts with only this one Group Assigned will also be Deleted)",
 				okLabel: 'Delete',
 				cancelLabel: 'Cancel'
 			}, $event, function() {

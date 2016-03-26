@@ -67,19 +67,18 @@
 	
 	} ]);
     
-    
-
     angular.module('yuMailApp').directive('fileUpload', function() {
 		return {
 			scope : true,
-			link : function(scope, el, attrs) {
-				el.bind('change', function(event) {
+			link : function(scope, element, attrs) {
+			    angular.element(element).on('change', function(event) {
 					var files = event.target.files;
 					for (var i = 0; i < files.length; i++) {
 						scope.$emit("fileSelected", {
 							file : files[i]
 						});
 					}
+					event.target.value = null;
 				});
 			}
 		}
@@ -93,9 +92,9 @@
 		var millisPerDay = 1000 * 60 * 60 * 24;
 	
 	    $scope.init = function() {
-	        $scope.groupsUrl = "groups/";
+	        $scope.groupsUrl = "groups/?enabled=true";
 	        $scope.contactsUrl = "contacts/";
-	        $scope.templatesUrl = "templates/";
+	        $scope.templatesUrl = "templates/?enabled=true";
 	        $scope.sendMailUrl = "sendMail/";
 	        
 	        $scope.request = {
@@ -117,7 +116,6 @@
 	        
 	        $scope.$on("fileSelected", function (event, args) {
 	    	    $scope.$apply(function () {            
-	    	        // add the file object to the scope's files collection
 	    	    	var newFile = {"name": args.file.path};
 	    	    	var idx = $scope.findFilePos(newFile);
 	    	    	if(idx == -1) {
@@ -132,7 +130,7 @@
 	    };
 		
 	    $scope.fetchContactsByGroup = function(group) {
-	        AjaxService.call($scope.contactsUrl + 'byGroup/' + group.id, 'GET').success(function(data, status, headers, config) {
+	        AjaxService.call($scope.contactsUrl + 'byGroup/' + group.id + '?enabled=true', 'GET').success(function(data, status, headers, config) {
                 $scope.contacts = data;
             });
 	    };

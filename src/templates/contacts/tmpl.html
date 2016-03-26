@@ -2,14 +2,30 @@
     <div layout="row" layout-align="space-between center">
         <md-subheader class="md-primary">Contacts</md-subheader>
         <div>
+            <md-button class="md-fab md-primary md-hue-2" aria-label="Export Contacts" ng-click="export($event)">
+                <i class="material-icons">file_download</i>
+                <md-tooltip>Export Contacts</md-tooltip>
+            </md-button>
+            <md-button class="md-fab md-primary md-hue-2" aria-label="Import Contacts" ng-click="import($event)">
+                <i class="material-icons">import_contacts</i>
+                <md-tooltip>Import Contacts</md-tooltip>
+            </md-button>
             <md-button class="md-fab md-primary md-hue-2" aria-label="Add" ng-click="add(null, $event)">
                 <i class="material-icons">add</i>
+                <md-tooltip>Add Contact</md-tooltip>
             </md-button>
             <md-button class="md-fab md-primary md-hue-2" aria-label="Refresh" ng-click="load(currentPage)">
                 <i class="material-icons">refresh</i>
+                <md-tooltip>Refresh</md-tooltip>
             </md-button>
         </div>
     </div>
+    <form ng-submit="load(1, searchParam)">
+	    <md-input-container class="md-block" flex-gt-xs>
+	        <label>Search By Name or Email</label>
+	        <input ng-model="searchParam" type="text" />
+	    </md-input-container>
+    </form>
     <md-tabs md-selected="page" md-dynamic-height md-border-bottom ng-show="pages > 0">
         <md-tab ng-repeat="page in getNumber(pages)" label="{{page}}" ng-click="currentPage != page && load(page)">
             <div class="tab{{page}}" style="padding: 5px; text-align: center">

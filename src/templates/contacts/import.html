@@ -1,0 +1,54 @@
+<md-dialog aria-label="Import Contacts" ng-controller="ImportContactController" ng-cloak style="width: 100%" ng-init="init()" class="fullscreen-dialog">
+	<form ng-submit="importContacts()">
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Import Contacts</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+	    <div layout="row" layout-align="space-between center">
+	        <md-select ng-model="selectedGroup" ng-disabled="!csvContents || csvContents.length <= 1">
+                <md-option ng-repeat="(index,group) in groups" ng-value="group" ng-selected="group.id == selectedGroup.id ? true : index == 0">{{group.name}}</md-option>
+            </md-select>
+	        <md-button class="md-fab md-primary md-hue-2" aria-label="Import Contacts Button" ng-click="csvFilePicker()">
+	            <label for="csvPicker">
+	                <i class="material-icons">import_contacts</i>
+	                <md-tooltip>Choose CSV File to Import</md-tooltip>
+	           </label>
+	        </md-button>
+	        <input id="csvPicker" type="file" style="display:none;" csv-reader="csvContents" />
+        </div>
+        <div layout="row" layout-align="space-between center">
+            <md-button ng-click="selectAll(true)" ng-disabled="!csvContents || csvContents.length <= 1">
+	            <p>Select All</p>
+	            <md-tooltip>Select All</md-tooltip>
+	        </md-button>
+	        <md-button ng-click="swapSelection()" ng-disabled="!csvContents || csvContents.length <= 1">
+                <p>Swap Selection</p>
+                <md-tooltip>Swap Selection</md-tooltip>
+            </md-button>
+            <md-button ng-click="selectAll(false)" ng-disabled="!csvContents || csvContents.length <= 1">
+                <p>Deselect All</p>
+                <md-tooltip>Deselect All</md-tooltip>
+            </md-button>
+        </div>
+        <div>
+            <md-list>
+	            <md-list-item ng-repeat="(index,contact) in csvContents" flex>
+	               <md-checkbox ng-model='contact.selectedToImport' ng-hide="index==0"></md-checkbox>
+	               <p><div>{{contact[0]}} ({{contact[1]}})</div></p>
+	            </md-list-item>
+	        </md-list>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()"> Cancel </md-button>
+        <md-button type="submit" style="margin-right:20px;" ng-disabled="!csvContents || csvContents.length <= 1 || !selectedGroup"> Import </md-button>
+    </md-dialog-actions>
+    </form>
+</md-dialog>

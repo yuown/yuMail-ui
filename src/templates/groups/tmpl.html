@@ -25,6 +25,9 @@
 	                     <md-tooltip>Edit</md-tooltip>
 	                     <i class="material-icons">mode_edit</i>
 	                 </md-button>
+	                 <md-switch class="md-fab md-mini" md-no-ink aria-label="Enabled" ng-model="item.enabled" ng-change="enableDisable(item)">
+                         <md-tooltip>Enable/ Disable</md-tooltip>
+                     </md-switch>
 	             </md-fab-actions>
 	         </md-fab-speed-dial>
 	     </div>
