@@ -13,7 +13,7 @@
 	    $scope.restUrl = "status/";
 	    
 	    $scope.load = function() {
-	    	AjaxService.call($scope.restUrl + "/ids", 'GET').success(function(data, status, headers, config) {
+	    	AjaxService.call($scope.restUrl + "ids", 'GET').success(function(data, status, headers, config) {
 	            $scope.items = data;
 	        });
 	    };
@@ -22,7 +22,7 @@
 	    	$scope.load();
 	    };
 	    
-	    $scope.add = function(data, ev) {
+	    $scope.view = function(data, ev) {
 		    if(!data) {
 		    	data = {};
 		    }
@@ -37,11 +37,11 @@
 		$scope.deleteItem = function(item, $event) {
 			$scope.confirmDialog({
 				title: 'Are you sure to delete this ?',
-				content: 'Status: ' + item.id,
+				content: 'Request: ' + item,
 				okLabel: 'Delete',
 				cancelLabel: 'Cancel'
 			}, $event, function() {
-				AjaxService.call($scope.restUrl + item.id, 'DELETE').success(function(data, status, headers, config) {
+				AjaxService.call($scope.restUrl + "/request/" + item, 'DELETE').success(function(data, status, headers, config) {
 	                $scope.load();
 	            });
 			});
@@ -49,7 +49,40 @@
 	    
 	} ]);
 	
-    angular.module('yuMailApp').controller('StatusController', [ '$scope', '$rootScope', 'AjaxService', '$controller', 'ngQuillConfig', function($scope, $rootScope, AjaxService, $controller, ngQuillConfig) {
+    angular.module('yuMailApp').controller('StatusController', [ '$scope', '$rootScope', 'AjaxService', '$controller', function($scope, $rootScope, AjaxService, $controller) {
+	    'use strict';
+	    
+	    $controller('BaseController', {
+			$scope : $scope
+		});
+	    
+	    $scope.restUrl = "status/";
+	    
+	    $scope.init = function() {
+	        $scope.item = $rootScope.temp.item;
+	        AjaxService.call($scope.restUrl + "/request/" + $scope.item, 'GET').success(function(data, status, headers, config) {
+	            $scope.items = data;
+	        });
+	    };
+	    
+	    $scope.view = function(data, ev) {
+		    if(!data) {
+		    	data = {};
+		    }
+		    $rootScope.temp = {
+	            item : data
+	        };
+		    $scope.openAsDialog('dist/js/status/viewStatus.html', ev, function() {
+		    	$rootScope.temp = {
+		            item : $scope.item
+		        };
+		    	$scope.openAsDialog('dist/js/status/view.html', ev, function() { });
+		    });
+		};
+	    
+	} ]);
+    
+    angular.module('yuMailApp').controller('ViewStatusController', [ '$scope', '$rootScope', 'AjaxService', '$controller', function($scope, $rootScope, AjaxService, $controller) {
 	    'use strict';
 	    
 	    $controller('BaseController', {
@@ -61,6 +94,10 @@
 	    $scope.init = function() {
 	        $scope.item = $rootScope.temp.item;
 	    };
+	    
+	    $scope.retry = function(data, ev) {
+	    	$scope.cancel();
+		};
 	    
 	} ]);
 })();

@@ -1,33 +1,73 @@
 <md-content style="height: 100%" ng-controller="ConfigItemsController" ng-init="load()" flex>
     <div layout="row" layout-align="space-between center">
-        <md-subheader class="md-primary">Configuration Items</md-subheader>
+        <md-subheader class="md-primary">Settings</md-subheader>
         <div>
-            <md-button class="md-fab md-primary md-hue-2" aria-label="Add" ng-click="add(null, $event)">
-                <i class="material-icons">add</i>
-            </md-button>
             <md-button class="md-fab md-primary md-hue-2" aria-label="Refresh" ng-click="load()">
                 <i class="material-icons">refresh</i>
             </md-button>
         </div>
     </div>
-    <md-list>
-         <md-list-item ng-repeat="item in items" ng-click="nothing()" flex>
-             <p>{{item.name}}</p>
-             <div class="lock-size" layout="row" layout-align="center center">
-	             <md-fab-speed-dial md-open="true" md-direction="left">
-	                 <md-fab-trigger></md-fab-trigger>
-	                 <md-fab-actions>
-	                     <md-button aria-label="Delete" class="md-fab md-mini" ng-click="deleteItem(item, $event)" ng-hide="item.deletable != null && item.deletable==false">
-	                         <md-tooltip>Delete</md-tooltip>
-	                         <i class="material-icons">delete_forever</i>
-	                     </md-button>
-	                     <md-button aria-label="Edit" class="md-fab md-mini" ng-click="add(item, $event)">
-	                         <md-tooltip>Edit</md-tooltip>
-	                         <i class="material-icons">mode_edit</i>
-	                     </md-button>
-	                 </md-fab-actions>
-	             </md-fab-speed-dial>
-	         </div>
-         </md-list-item>
-     </md-list>
+    <md-tabs md-dynamic-height md-border-bottom>
+	    <md-tab label="Mail Server">
+	        <div class="md-dialog-content" flex>
+	            <md-input-container class="md-block" flex-gt-xs>
+	                <label>SMTP Host</label>
+	                <input ng-model="getSetting('mail.smtp.host').strValue" type="text" />
+	            </md-input-container>
+	            <md-input-container class="md-block" flex-gt-xs>
+                    <label>SMTP Port</label>
+                    <input ng-model="getSetting('mail.smtp.port').value" type="number" />
+                </md-input-container>
+	            <md-input-container class="md-block" flex-gt-xs>
+                    <label>From Email Address</label>
+                    <input ng-model="getSetting('mail.message.from.default').strValue" type="text" />
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Reply To Email Address</label>
+                    <input ng-model="getSetting('mail.reply.to').strValue" type="text" />
+                </md-input-container>
+                <md-switch class="md-primary" md-no-ink aria-label="Requires Authentication" ng-model="getSetting('mail.auth.required').boolValue">Requires Authentication</md-switch>
+                <md-switch class="md-primary" md-no-ink aria-label="Through Proxy Server" ng-model="getSetting('proxy.enabled').boolValue">Connection through Proxy Connection</md-switch>
+                <md-switch class="md-primary" md-no-ink aria-label="SSL Enabled" ng-model="getSetting('mail.secured').boolValue">SSL Secured</md-switch>
+                <md-switch class="md-primary" md-no-ink aria-label="Start TLS" ng-model="getSetting('mail.smtp.starttls.enable').boolValue">Start TLS Before Sending Mail</md-switch>
+	        </div>
+        </md-tab>
+        <md-tab label="SMTP Authentication Details" ng-disabled="!getSetting('mail.auth.required').boolValue">
+            <div class="md-dialog-content" flex>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>SMTP Username</label>
+                    <input ng-model="getSetting('mail.user.name').strValue" type="text" />
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>SMTP Password</label>
+                    <input ng-model="getSetting('mail.user.pass').strValue" type="text" />
+                </md-input-container>
+            </div>
+        </md-tab>
+        <md-tab label="Proxy Settings" ng-disabled="!getSetting('proxy.enabled').boolValue">
+            <div class="md-dialog-content" flex>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Proxy Host</label>
+                    <input ng-model="getSetting('proxy.host').strValue" type="text" />
+                </md-input-container>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Proxy Port</label>
+                    <input ng-model="getSetting('proxy.port').strValue" type="text" />
+                </md-input-container>
+            </div>
+        </md-tab>
+        <md-tab label="System Settings">
+            <div class="md-dialog-content" flex>
+                <md-input-container class="md-block" flex-gt-xs>
+                    <label>Records to Display per Page</label>
+                    <input ng-model="getSetting('page.size').value" type="number" />
+                </md-input-container>
+                <md-switch class="md-primary" md-no-ink aria-label="Enable SMTP Logs" ng-model="getSetting('mail.debug').boolValue">Print Debug Logs for SMTP ?</md-switch>
+            </div>
+        </md-tab>
+    </md-tabs>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button style="margin-right:20px;" ng-click="save()"> Save </md-button>
+    </md-dialog-actions>
 </md-content>

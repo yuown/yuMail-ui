@@ -34,7 +34,8 @@ gulp.task('browserify', function() {
                   './src/js/contacts/controllers.js',
                   './src/js/groups/controllers.js',
                   './src/js/settings/controllers.js',
-                  './src/js/templates/controllers.js'
+                  './src/js/templates/controllers.js',
+                  './src/js/status/controllers.js'
                    ];
     return browserify({entries: files1})
         .bundle()

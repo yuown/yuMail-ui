@@ -8,7 +8,7 @@
 			$scope : $scope
 		});
 	    
-	    $rootScope.pageTitle = "Configuration Items";
+	    $rootScope.pageTitle = "Settings";
 	    
 	    $scope.restUrl = "settings/";
 	    
@@ -22,29 +22,20 @@
 	    	$scope.load();
 	    };
 	    
-	    $scope.add = function(data, ev) {
-		    if(!data) {
-		    	data = {};
-		    }
-		    $rootScope.temp = {
-	            item : data
-	        };
-		    $scope.openAsDialog('dist/js/settings/add.html', ev, function() {
-		        $scope.load();
-		    });
-		};
-		
-		$scope.deleteItem = function(item, $event) {
-			$scope.confirmDialog({
-				title: 'Are you sure to delete this ?',
-				content: 'Configuration Item Name: ' + item.name,
-				okLabel: 'Delete',
-				cancelLabel: 'Cancel'
-			}, $event, function() {
-				AjaxService.call($scope.restUrl + item.id, 'DELETE').success(function(data, status, headers, config) {
-	                $scope.load();
-	            });
-			});
+	    $scope.getSetting = function(name) {
+	    	if($scope.items && $scope.items.length > 0) {
+		    	for(var i=0;i<$scope.items.length;i++) {
+		    		if($scope.items[i].name == name) {
+		    			return $scope.items[i];
+		    		}
+		    	}
+	    	}
+	    };
+	    
+	    $scope.save = function() {
+	        AjaxService.call($scope.restUrl + "all", 'POST', $scope.items).success(function(data, status, headers, config) {
+	        	$scope.items = data;
+	        });
 	    };
 	    
 	} ]);

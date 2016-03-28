@@ -26,14 +26,14 @@
             title : "Templates",
             icon : "insert_drive_file"
         }, {
-			url : "#/home/configs",
-			title : "Configuration Items",
-			icon : "settings"
-		}, {
             url : "#/home/status",
             title : "Email Statuses",
             icon : "mail_outline"
-        }];
+        }, {
+			url : "#/home/configs",
+			title : "Settings",
+			icon : "settings"
+		}];
 	    
 	    $controller('BaseController', {
 			$scope : $scope

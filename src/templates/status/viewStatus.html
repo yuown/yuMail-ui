@@ -1,0 +1,63 @@
+<md-dialog aria-label="Email Status" ng-controller="ViewStatusController" ng-cloak style="width: 100%" ng-init="init()" class="fullscreen-dialog">
+	<form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Email Status</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+            <i class="material-icons">close</i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-dialog-content layout-padding>
+        <md-list ng-hide="item.status!='FAILED'">
+            <md-list-item ng-click="nothing()" flex>
+                <p>Status: {{item.status}}</p>
+                <div class="lock-size" layout="row" layout-align="center center">
+                    <md-fab-speed-dial md-open="true" md-direction="left">
+                        <md-fab-trigger></md-fab-trigger>
+                        <md-fab-actions>
+                            <md-button aria-label="Delete" class="md-fab md-mini" ng-click="retry(item, $event)">
+                                <md-tooltip>Retry</md-tooltip>
+                                <i class="material-icons">repeat</i>
+                            </md-button>
+                        </md-fab-actions>
+                    </md-fab-speed-dial>
+                </div>
+            </md-list-item>
+        </md-list>
+        <div class="md-dialog-content" flex>
+	         <md-input-container class="md-block" flex-gt-xs>
+                <label>Contact Name</label>
+                <input ng-model="item.contact.name" type="text" ng-readonly="true" />
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Contact Email</label>
+                <input ng-model="item.contact.email" type="text" ng-readonly="true" />
+            </md-input-container>
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Email Subject</label>
+                <input ng-model="item.subject" type="text" ng-readonly="true" />
+            </md-input-container>
+            <ng-quill-editor name="editor2"
+                callback="editorCallback(editor, name)" ng-model="item.content"
+                translations="translations" toolbar="false" toolbar-required="false"
+                show-toolbar="false" link-tooltip="true" image-tooltip="false"
+                editor-required="true" error-class="input-error"
+                fontsize-options="fontsizeOptions"
+                fontfamily-options="fontfamilyOptions">
+            </ng-quill-editor>
+            <md-list>
+                 <md-list-item ng-repeat="att in item.attachments" ng-click="nothing()" flex>
+                     <p>{{att.path}}</p>
+                 </md-list-item>
+             </md-list>
+             <div>{{item.message}}</div>
+        </div>
+    </md-dialog-content>
+    <md-dialog-actions layout="row">
+        <span flex></span>
+        <md-button ng-click="cancel()"> Cancel </md-button>
+    </md-dialog-actions>
+    </form>
+</md-dialog>
