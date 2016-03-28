@@ -29,7 +29,11 @@
 			url : "#/home/configs",
 			title : "Configuration Items",
 			icon : "settings"
-		}];
+		}, {
+            url : "#/home/status",
+            title : "Email Statuses",
+            icon : "mail_outline"
+        }];
 	    
 	    $controller('BaseController', {
 			$scope : $scope

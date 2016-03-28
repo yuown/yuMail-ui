@@ -11,6 +11,7 @@
     	when('/home/groups', 'home.groups').
     	when('/home/configs', 'home.configs').
     	when('/home/templates', 'home.templates').
+    	when('/home/status', 'home.status').
     	segment('home', {
 	        templateUrl : 'dist/js/home/tmpl.html',
 	    });
@@ -32,6 +33,9 @@
 	            }).
                 segment('templates', {
                     templateUrl : 'dist/js/templates/tmpl.html'
+                }).
+                segment('status', {
+                    templateUrl : 'dist/js/status/tmpl.html'
                 });
 	    
 	    $routeProvider.otherwise({redirectTo: '/home'}); 
