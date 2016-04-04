@@ -96,7 +96,15 @@
 	    };
 	    
 	    $scope.retry = function(data, ev) {
-	    	$scope.cancel();
+	        AjaxService.call($scope.restUrl + '/request/retry/' + $scope.item.id, 'GET').success(function(data, status, headers, config) {
+	            $scope.confirmDialog({
+	                title: 'Retry Email',
+	                content: 'Email Retry Submitted',
+	                okLabel: 'OK'
+	            }, ev, function() {
+	                $scope.cancel();
+	            });
+            });
 		};
 	    
 	} ]);

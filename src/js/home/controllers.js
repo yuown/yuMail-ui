@@ -223,7 +223,7 @@
 	    	return idx;
 	    }
 	    
-	    $scope.sendMail = function() {
+	    $scope.sendMail = function($event) {
 	    	var atts = [];
 	    	for(var i=0;i<$scope.request.attachments.length;i++) {
 	    		atts[i] = $scope.request.attachments[i].name;
@@ -232,7 +232,23 @@
 	    	var request = angular.copy($scope.request);
 	    	request.attachments = atts;
 	    	request.content = content;
-	    	AjaxService.call($scope.sendMailUrl, 'POST', request);
+	    	var errorMessage = '';
+	    	if(!request.selectedContacts || request.selectedContacts.length == 0) {
+	    	    errorMessage = 'Cannot Send Mail without any Contact Selected!';
+	    	} else if(!request.subject || request.subject.trim().length == 0) {
+	    	    errorMessage = 'Mail Subject is Empty!';
+	    	} else if(!request.content || request.content.trim() == '<div><br></div>' || request.content.trim() == '<div>&nbsp;</div>' || request.content.trim().length == 0) {
+                errorMessage = 'Mail Content is Empty!';
+            }
+	    	if(errorMessage.trim().length > 0) {
+	    	    $scope.confirmDialog({
+                    title: 'Error',
+                    content: errorMessage,
+                    okLabel: 'OK'
+                }, $event, function() { });
+	    	} else {
+	    	    AjaxService.call($scope.sendMailUrl, 'POST', request);
+	    	}
 	    };
 	    
 	} ]);
