@@ -247,7 +247,13 @@
                     okLabel: 'OK'
                 }, $event, function() { });
 	    	} else {
-	    	    AjaxService.call($scope.sendMailUrl, 'POST', request);
+	    	    AjaxService.call($scope.sendMailUrl, 'POST', request).success(function(data, status, headers, config) {
+	    	        $scope.confirmDialog({
+	                    title: 'Success',
+	                    content: "Successfully Submitted to Send Mails, Check 'Email Statuses' for Status",
+	                    okLabel: 'OK'
+	                }, $event, function() { });
+	    	    });
 	    	}
 	    };
 	    

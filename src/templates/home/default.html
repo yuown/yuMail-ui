@@ -14,8 +14,12 @@
 		    </md-select>
             <div style="float: left; width: 40%">
                 Available Contacts for Selection
+                <md-input-container class="md-block" flex-gt-xs>
+	                <label>Filter</label>
+	                <input ng-model="filterAvailable" type="text" />
+	            </md-input-container>
                 <md-list>
-                     <md-list-item ng-repeat="contact in contacts" ng-hide="contact.selected" flex>
+                     <md-list-item ng-repeat="contact in contacts | filter:filterAvailable" ng-hide="contact.selected" flex>
                         <md-checkbox ng-model='contact.selectedToAdd'></md-checkbox>
                         <p>{{contact.name}}</p>
                         <i class="material-icons md-secondary" ng-click="addContact(contact)">add</i>
@@ -48,8 +52,12 @@
 			</div>
 			<div style="float: left; width: 40%">
 			    Selected Contacts
+			    <md-input-container class="md-block" flex-gt-xs>
+                    <label>Filter</label>
+                    <input ng-model="filterSelected" type="text" />
+                </md-input-container>
                 <md-list>
-                     <md-list-item ng-repeat="contact in request.selectedContacts" flex>
+                     <md-list-item ng-repeat="contact in request.selectedContacts | filter:filterSelected" flex>
                         <md-checkbox ng-model='contact.selectedToRemove'></md-checkbox>
                         <p>{{contact.name}}</p>
                         <i class="material-icons md-secondary" ng-click="removeContact(contact)">remove</i>
